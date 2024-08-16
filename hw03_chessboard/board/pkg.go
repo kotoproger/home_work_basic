@@ -1,6 +1,9 @@
 package board
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 func GetConfig() (size int, err error) {
 	fmt.Printf("Введите размер доски: ")
@@ -13,33 +16,49 @@ func GetConfig() (size int, err error) {
 }
 
 func Paint(size int, black string, white string) (board string) {
-	board += addtopLine(size)
+	var b strings.Builder
+	b.WriteString(addtopLine(size))
 	for i := 0; i < size; i++ {
+		b.WriteString("|")
 		if i%2 == 0 {
-			board += "|" + paintLine(size, black, white) + "|\n"
+			b.WriteString(paintLine(size, black, white))
 		} else {
-			board += "|" + paintLine(size, white, black) + "|\n"
+			b.WriteString(paintLine(size, white, black))
 		}
+		b.WriteString("|\n")
 	}
-	board += addBottomLine(size)
-	return
+	b.WriteString(addBottomLine(size))
+
+	return b.String()
 }
 
 func addtopLine(size int) (line string) {
-	return "_" + paintLine(size, "_", "_") + "_\n"
+	var b strings.Builder
+	b.WriteString("_")
+	b.WriteString(paintLine(size, "_", "_"))
+	b.WriteString("_\n")
+
+	return b.String()
 }
 
 func addBottomLine(size int) (line string) {
-	return "⎺" + paintLine(size, "⎺", "⎺") + "⎺\n"
+	var b strings.Builder
+	b.WriteString("⎺")
+	b.WriteString(paintLine(size, "⎺", "⎺"))
+	b.WriteString("⎺\n")
+
+	return b.String()
 }
 
 func paintLine(size int, black string, white string) (line string) {
+	var b strings.Builder
 	for i := 0; i < size; i++ {
 		if i%2 == 0 {
-			line += black
+			b.WriteString(black)
 		} else {
-			line += white
+			b.WriteString(white)
 		}
 	}
-	return
+
+	return b.String()
 }
