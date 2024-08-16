@@ -25,7 +25,7 @@ func main() {
 		path = "data.json"
 	}
 
-	staff, err = reader.ReadJSON(path, -1)
+	staff, err = reader.ReadJSON(path)
 
 	if err != nil {
 		fmt.Printf("Error: %v", err)
