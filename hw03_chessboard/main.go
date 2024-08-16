@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/fixme_my_friend/hw03_chessboard/board"
+	"github.com/kotoproger/home_work_basic/hw03_chessboard/board"
 )
 
 func main() {
