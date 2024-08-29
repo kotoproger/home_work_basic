@@ -4,37 +4,37 @@ import (
 	"github.com/kotoproger/hw04_struct_comparator/book"
 )
 
+type CompareType string
+
 const (
-	CompareYear = "year"
-	CompareSize = "size"
-	CompareRate = "rate"
+	CompareYear CompareType = "year"
+	CompareSize CompareType = "size"
+	CompareRate CompareType = "rate"
 )
 
 type BookComparator struct {
-	compareTypes []string
+	compareType CompareType
 }
 
-func NewBookComparator(types []string) *BookComparator {
+func NewBookComparator(compareType CompareType) *BookComparator {
 	return &BookComparator{
-		compareTypes: types,
+		compareType: compareType,
 	}
 }
 
 func (comp BookComparator) Compare(book1 *book.Book, book2 *book.Book) bool {
-	for _, field := range comp.compareTypes {
-		switch field {
-		case CompareRate:
-			if book1.Rate() > book2.Rate() {
-				return true
-			}
-		case CompareSize:
-			if book1.Size() > book2.Size() {
-				return true
-			}
-		case CompareYear:
-			if book1.Year() > book2.Year() {
-				return true
-			}
+	switch comp.compareType {
+	case CompareRate:
+		if book1.Rate() > book2.Rate() {
+			return true
+		}
+	case CompareSize:
+		if book1.Size() > book2.Size() {
+			return true
+		}
+	case CompareYear:
+		if book1.Year() > book2.Year() {
+			return true
 		}
 	}
 
