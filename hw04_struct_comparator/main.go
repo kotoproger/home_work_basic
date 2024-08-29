@@ -9,7 +9,7 @@ import (
 
 func main() {
 	book1 := book.NewBook(123, "title1", "author1", 2000, 34, 9.5)
-	book2 := book.NewBook(124, "title2", "author2", 1999, 35, 9.3)
+	book2 := book.NewBook(124, "title2", "author2", 2000, 35, 9.3)
 
 	comparator := comparator.NewBookComparator([]string{comparator.CompareYear})
 
