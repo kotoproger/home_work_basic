@@ -25,7 +25,7 @@ func NewBook(id int,
 	}
 }
 
-func (book Book) Id() int {
+func (book Book) ID() int {
 	return book.id
 }
 
@@ -49,22 +49,22 @@ func (book Book) Rate() float64 {
 	return book.rate
 }
 
-func (book Book) SetTitle(newTitle string) {
+func (book *Book) SetTitle(newTitle string) {
 	book.title = newTitle
 }
 
-func (book Book) SetAuthor(newAuthor string) {
+func (book *Book) SetAuthor(newAuthor string) {
 	book.author = newAuthor
 }
 
-func (book Book) SetYear(newYear int) {
+func (book *Book) SetYear(newYear int) {
 	book.year = newYear
 }
 
-func (book Book) SetSize(newSize int) {
+func (book *Book) SetSize(newSize int) {
 	book.size = newSize
 }
 
-func (book Book) SetRate(newRate float64) {
+func (book *Book) SetRate(newRate float64) {
 	book.rate = newRate
 }

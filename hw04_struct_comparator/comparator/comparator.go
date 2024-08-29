@@ -5,9 +5,9 @@ import (
 )
 
 const (
-	COMPARE_YEAR = "year"
-	COMPARE_SIZE = "size"
-	COMPARE_RATE = "rate"
+	CompareYear = "year"
+	CompareSize = "size"
+	CompareRate = "rate"
 )
 
 type BookComparator struct {
@@ -23,15 +23,15 @@ func NewBookComparator(types []string) BookComparator {
 func (comp BookComparator) Compare(book1 *book.Book, book2 *book.Book) bool {
 	for _, field := range comp.compareTypes {
 		switch field {
-		case COMPARE_RATE:
+		case CompareRate:
 			if book1.Rate() > book2.Rate() {
 				return true
 			}
-		case COMPARE_SIZE:
+		case CompareSize:
 			if book1.Size() > book2.Size() {
 				return true
 			}
-		case COMPARE_YEAR:
+		case CompareYear:
 			if book1.Year() > book2.Year() {
 				return true
 			}
