@@ -1,7 +1,7 @@
 package comparator
 
 import (
-	"github.com/fixme_my_friend/hw04_struct_comparator/book"
+	"github.com/kotoproger/hw04_struct_comparator/book"
 )
 
 const (

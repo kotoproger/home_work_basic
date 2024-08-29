@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 
-	"github.com/fixme_my_friend/hw04_struct_comparator/book"
-	"github.com/fixme_my_friend/hw04_struct_comparator/comparator"
+	"github.com/kotoproger/hw04_struct_comparator/book"
+	"github.com/kotoproger/hw04_struct_comparator/comparator"
 )
 
 func main() {

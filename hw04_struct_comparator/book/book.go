@@ -14,7 +14,8 @@ func NewBook(id int,
 	author string,
 	year int,
 	size int,
-	rate float64) Book {
+	rate float64,
+) Book {
 	return Book{
 		id:     id,
 		title:  title,
