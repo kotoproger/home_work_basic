@@ -15,8 +15,8 @@ func NewBook(id int,
 	year int,
 	size int,
 	rate float64,
-) Book {
-	return Book{
+) *Book {
+	return &Book{
 		id:     id,
 		title:  title,
 		author: author,

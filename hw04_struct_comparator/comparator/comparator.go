@@ -14,8 +14,8 @@ type BookComparator struct {
 	compareTypes []string
 }
 
-func NewBookComparator(types []string) BookComparator {
-	return BookComparator{
+func NewBookComparator(types []string) *BookComparator {
+	return &BookComparator{
 		compareTypes: types,
 	}
 }

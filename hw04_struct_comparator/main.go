@@ -15,5 +15,5 @@ func main() {
 
 	fmt.Println("book 1:", book1)
 	fmt.Println("book 2:", book2)
-	fmt.Print("compare result: ", comparator.Compare(&book1, &book2))
+	fmt.Print("compare result: ", comparator.Compare(book1, book2))
 }
