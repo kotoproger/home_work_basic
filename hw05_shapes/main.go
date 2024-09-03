@@ -21,5 +21,10 @@ func main() {
 }
 
 func printSq(s any) {
-	fmt.Println(figure.CalculateArea(s))
+	square, calcError := figure.CalculateArea(s)
+	if calcError == nil {
+		fmt.Println(square)
+	} else {
+		fmt.Println(calcError)
+	}
 }
