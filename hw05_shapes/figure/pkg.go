@@ -6,7 +6,7 @@ type Shape interface {
 	Area() (float64, error)
 }
 
-func CalculateArea(s any) (area float64, areaError error) {
+func CalculateArea(s any) (float64, error) {
 	shape, ok := s.(Shape)
 	if !ok {
 		return 0, errors.New("переданный объект не фигура или фигура без площади")
