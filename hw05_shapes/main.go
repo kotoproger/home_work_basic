@@ -21,6 +21,5 @@ func main() {
 }
 
 func printSq(s any) {
-	sq, error := figure.CalculateArea(s)
-	fmt.Println(sq, error)
+	fmt.Println(figure.CalculateArea(s))
 }
