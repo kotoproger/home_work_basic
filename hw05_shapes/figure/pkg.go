@@ -12,7 +12,5 @@ func CalculateArea(s any) (area float64, areaError error) {
 		return 0, errors.New("переданный объект не фигура или фигура без площади")
 	}
 
-	area, areaError = shape.Area()
-
-	return
+	return shape.Area()
 }
