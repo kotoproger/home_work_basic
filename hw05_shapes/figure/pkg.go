@@ -3,7 +3,7 @@ package figure
 import "errors"
 
 type Shape interface {
-	Area() float64
+	Area() (float64, error)
 }
 
 func CalculateArea(s any) (float64, error) {
@@ -12,5 +12,11 @@ func CalculateArea(s any) (float64, error) {
 		return 0, errors.New("переданный объект не фигура или фигура без площади")
 	}
 
-	return shape.Area(), nil
+	area, areaError := shape.Area()
+
+	if areaError != nil {
+		return 0, areaError
+	}
+
+	return area, nil
 }

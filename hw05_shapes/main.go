@@ -7,17 +7,19 @@ import (
 )
 
 func main() {
-	cirle := figure.NewCirlce(5)
-	printSq(cirle)
+	printSq(figure.NewCirlce(5))
 
-	rect := figure.NewRectangle(5, 10)
-	printSq(rect)
+	printSq(figure.NewRectangle(5, 10))
 
-	triangle := figure.NewTriangle(8, 6)
-	printSq(triangle)
+	printSq(figure.NewTriangle(8, 6))
 
-	dot := figure.NewDot(1, 2)
-	printSq(dot)
+	printSq(figure.NewDot(1, 2))
+
+	printSq(figure.NewCirlce(0))
+
+	printSq(figure.NewTriangle(8, 0))
+
+	printSq(figure.NewRectangle(5, 0))
 }
 
 func printSq(s any) {
