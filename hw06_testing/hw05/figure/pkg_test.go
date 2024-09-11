@@ -27,6 +27,7 @@ func TestCalculateArea(t *testing.T) {
 		{"bool", true, 0, errors.New("переданный объект не фигура или фигура без площади")},
 		{"string", "asdasd", 0, errors.New("переданный объект не фигура или фигура без площади")},
 		{"float", 1.0, 0, errors.New("переданный объект не фигура или фигура без площади")},
+		{"nil", nil, 0, errors.New("переданный объект не фигура или фигура без площади")},
 		{"shape with area", &MockShape{area: 1.5, err: nil}, 1.5, nil},
 		{"shape with area and error", &MockShape{23, errors.New("some error")}, 23, errors.New("some error")},
 	}
