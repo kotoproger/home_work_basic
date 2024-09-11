@@ -6,7 +6,7 @@ import (
 	"io"
 	"os"
 
-	types "github.com/kotoproger/home_work_basic/hw02_fix_app/types"
+	types "github.com/kotoproger/home_work_basic/hw06_testing/hw02/types"
 )
 
 func ReadJSON(filePath string) ([]types.Employee, error) {
