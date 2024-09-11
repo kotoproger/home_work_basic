@@ -1,17 +1,13 @@
 package board
 
 import (
+	"fmt"
 	"strings"
 )
 
-type Console interface {
-	Printf(format string, a ...any) (n int, err error)
-	Scanln(a ...any) (n int, err error)
-}
-
-func GetConfig(console Console) (size int, err error) {
-	console.Printf("Введите размер доски: ")
-	_, err = console.Scanln(&size)
+func GetConfig() (size int, err error) {
+	fmt.Printf("Введите размер доски: ")
+	_, err = fmt.Scanln(&size)
 	if err != nil {
 		return
 	}
