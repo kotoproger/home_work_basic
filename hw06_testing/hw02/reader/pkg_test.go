@@ -53,17 +53,17 @@ func TestReadJSON(t *testing.T) {
 func createTempFile(content string) (string, error) {
 	f, err := os.CreateTemp("", "example")
 	if err != nil {
-		return "", fmt.Errorf("can not create temporary file: %w", err)
+		return "", fmt.Errorf("create temporary file: %w", err)
 	}
 
 	_, err = f.Write([]byte(content))
 	if err != nil {
-		return "", fmt.Errorf("can not write to temporary file: %w", err)
+		return "", fmt.Errorf("write to temporary file: %w", err)
 	}
 
 	err = f.Close()
 	if err != nil {
-		return "", fmt.Errorf("can not close temporary file: %w", err)
+		return "", fmt.Errorf("close temporary file: %w", err)
 	}
 
 	return f.Name(), nil
