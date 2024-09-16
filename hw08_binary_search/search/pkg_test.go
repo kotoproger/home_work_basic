@@ -20,6 +20,7 @@ func TestBinarySearch(t *testing.T) {
 		{"first", []int{1, 2, 3, 5, 6, 7}, 1, 0, true},
 		{"last", []int{1, 2, 3, 5, 6, 7}, 7, 5, true},
 		{"middle", []int{1, 2, 3, 5, 6, 7}, 3, 2, true},
+		{"unsorted not found", []int{2, 3, 5, 6, 7, 1}, 1, 0, false},
 	}
 
 	for _, testCase := range TestCases {
