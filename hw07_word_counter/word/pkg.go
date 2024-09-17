@@ -1,51 +1,15 @@
 package word
 
-/*
-"`~!@#$%^&*()_+=-[]{}\\|/№;:? '\"".
-*/
-var separators = map[rune]bool{
-	'`':  true,
-	'~':  true,
-	'!':  true,
-	'@':  true,
-	'"':  true,
-	'#':  true,
-	'№':  true,
-	';':  true,
-	'$':  true,
-	'%':  true,
-	':':  true,
-	'^':  true,
-	'&':  true,
-	'?':  true,
-	'*':  true,
-	'(':  true,
-	')':  true,
-	'-':  true,
-	'_':  true,
-	'+':  true,
-	'=':  true,
-	'{':  true,
-	'}':  true,
-	'[':  true,
-	']':  true,
-	'\'': true,
-	'\\': true,
-	'|':  true,
-	'/':  true,
-	' ':  true,
-	'>':  true,
-	'<':  true,
-	'.':  true,
-	',':  true,
-}
+import (
+	"unicode"
+)
 
 func Words(s string) (wordsMap map[string]int) {
 	wordsMap = make(map[string]int)
 	var lastIndex int
 	isword := false
 	for index, symbol := range s {
-		if separators[symbol] {
+		if !unicode.IsLetter(symbol) {
 			if isword && lastIndex != index {
 				wordsMap[s[lastIndex:index]]++
 			}
@@ -60,5 +24,6 @@ func Words(s string) (wordsMap map[string]int) {
 	if isword && lastIndex != len(s) {
 		wordsMap[s[lastIndex:]]++
 	}
+
 	return
 }
