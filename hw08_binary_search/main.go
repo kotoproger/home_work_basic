@@ -7,5 +7,5 @@ import (
 )
 
 func main() {
-	fmt.Println(search.BinarySearch([]int{1, 2, 3, 4, 5, 6, 7, 8, 9}, 5))
+	fmt.Println(search.BinarySearch([]int{1, 2, 3, 4, 5, 6, 7, 8, 9}, 9))
 }

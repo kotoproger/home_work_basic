@@ -1,19 +1,28 @@
 package search
 
 func BinarySearch(list []int, found int) int {
-	var indexShift int
-	for len(list) > 0 {
-		mediumIndex := (len(list) - len(list)%2) / 2
+	if len(list) == 0 {
+		return -1
+	}
+
+	var left int
+	right := len(list) - 1
+
+	for (right - left) > 0 {
+		sum := left + right
+		mediumIndex := (sum - (sum % 2)) / 2
 
 		switch {
 		case list[mediumIndex] == found:
-			return indexShift + mediumIndex
+			return mediumIndex
 		case list[mediumIndex] > found:
-			list = list[0:(mediumIndex)]
+			right = mediumIndex - 1
 		default:
-			list = list[(mediumIndex + 1):]
-			indexShift += mediumIndex + 1
+			left = mediumIndex + 1
 		}
+	}
+	if list[left] == found {
+		return left
 	}
 	return -1
 }
