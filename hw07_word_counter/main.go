@@ -1,5 +1,11 @@
 package main
 
+import (
+	"fmt"
+
+	"github.com/kotoproger/home_work_basic/hw07_word_counter/word"
+)
+
 func main() {
-	// Place your code here.
+	fmt.Println(word.Words("hello worlds, hello world"))
 }
