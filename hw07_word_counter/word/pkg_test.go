@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestWord(t *testing.T) {
+func TestWords(t *testing.T) {
 	testCases := []struct {
 		name   string
 		input  string
@@ -20,12 +20,15 @@ func TestWord(t *testing.T) {
 		{"string is word surrounded separators", ",sdfdgwe}", map[string]int{
 			"sdfdgwe": 1,
 		}},
-		{"some words", "булок,sdfdgwe}французских,français:булок,Булок", map[string]int{
+		{"some words", "булок,sdfdgwe}французских,français:булок,Булок/Ta4ka, k8s, log4j", map[string]int{
 			"булок":       2,
 			"sdfdgwe":     1,
 			"французских": 1,
 			"français":    1,
 			"Булок":       1,
+			"Ta4ka":       1,
+			"k8s":         1,
+			"log4j":       1,
 		}},
 	}
 
