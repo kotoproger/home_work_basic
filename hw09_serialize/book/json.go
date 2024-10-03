@@ -2,7 +2,6 @@ package book
 
 import (
 	"encoding/json"
-	"strings"
 )
 
 type jsonBook struct {
@@ -65,36 +64,15 @@ func (b *Book) UnmarshalJSON(data []byte) error {
 }
 
 func MarshalBookSlice(books []Book) ([]byte, error) {
-	var b strings.Builder
-
-	_, startErr := b.WriteString("[")
-	if startErr != nil {
-		return nil, startErr
+	slicejBooks := make([]jsonBook, len(books))
+	for index, b := range books {
+		b := b
+		jbook := jsonBook{}
+		jbook.fromBook(&b)
+		slicejBooks[index] = jbook
 	}
 
-	first := true
-	for _, el := range books {
-		if first {
-			first = false
-		} else {
-			_, err := b.WriteString(",")
-			if err != nil {
-				return nil, err
-			}
-		}
-		jsonString, mErr := el.MarshalJSON()
-		if mErr != nil {
-			return nil, mErr
-		}
-		b.WriteString(string(jsonString))
-	}
-
-	_, endErr := b.WriteString("]")
-	if endErr != nil {
-		return nil, endErr
-	}
-
-	return []byte(b.String()), nil
+	return json.Marshal(slicejBooks)
 }
 
 func UnmarshalBookSliceJSON(data []byte) ([]Book, error) {
