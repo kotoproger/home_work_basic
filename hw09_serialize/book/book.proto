@@ -2,8 +2,8 @@ syntax = "proto3";
 package book;
 
 message book{
-    uint32 ID = 1;
-    string Title = 2;
+	uint32 ID = 1;
+	string Title = 2;
 	string Author = 3;
 	uint32 Year = 4;
 	uint32 Size = 5;
