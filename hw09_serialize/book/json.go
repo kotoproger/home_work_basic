@@ -2,7 +2,6 @@ package book
 
 import (
 	"encoding/json"
-	"fmt"
 )
 
 type jsonBook struct {
@@ -49,7 +48,6 @@ func (b *Book) jsonBook() (jb jsonBook) {
 }
 
 func (b Book) MarshalJSON() ([]byte, error) {
-	fmt.Println("book marshaler")
 	return json.Marshal(b.jsonBook())
 }
 
