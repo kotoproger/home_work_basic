@@ -9,3 +9,7 @@ message book{
 	uint32 Size = 5;
 	float Rate = 6;
 }
+
+message booklist{
+	repeated book books = 1;
+}

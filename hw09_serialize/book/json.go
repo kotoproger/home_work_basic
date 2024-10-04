@@ -2,15 +2,20 @@ package book
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
 type jsonBook struct {
-	ID     uint32  `json:"id"`
+	ID     uint32  `json:"idid"`
 	Title  string  `json:"title"`
 	Author string  `json:"author"`
 	Year   uint32  `json:"year"`
 	Size   uint32  `json:"size"`
 	Rate   float32 `json:"rate"`
+}
+
+type jsonBooklist struct {
+	Books []jsonBook `json:"bOOks"`
 }
 
 func (jb *jsonBook) book() Book {
@@ -42,9 +47,10 @@ func (jb *jsonBook) fromBook(b *Book) {
 	jb.Rate = b.Rate
 }
 
-func (b *Book) MarshalJSON() ([]byte, error) {
+func (b Book) MarshalJSON() ([]byte, error) {
+	fmt.Println("book marshaler")
 	jBook := jsonBook{}
-	jBook.fromBook(b)
+	jBook.fromBook(&b)
 	return json.Marshal(jBook)
 }
 
@@ -63,31 +69,28 @@ func (b *Book) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func MarshalBookSlice(books []Book) ([]byte, error) {
-	slicejBooks := make([]jsonBook, len(books))
-	for index, b := range books {
-		b := b
-		jbook := jsonBook{}
-		jbook.fromBook(&b)
-		slicejBooks[index] = jbook
+func (bl Booklist) MarshalJSON() ([]byte, error) {
+	jbl := jsonBooklist{Books: make([]jsonBook, len(bl.Books))}
+	for index, book := range bl.Books {
+		jsonBook := jsonBook{}
+		jsonBook.fromBook(book)
+		jbl.Books[index] = jsonBook
 	}
 
-	return json.Marshal(slicejBooks)
+	return json.Marshal(jbl)
 }
 
-func UnmarshalBookSliceJSON(data []byte) ([]Book, error) {
-	tempStruct := []jsonBook{}
-	err := json.Unmarshal(
-		data,
-		&tempStruct,
-	)
+func (bl *Booklist) UnmarshalJSON(data []byte) error {
+	jbl := jsonBooklist{}
+	err := json.Unmarshal(data, &jbl)
 	if err != nil {
-		return nil, err
+		return err
 	}
-	result := make([]Book, len(tempStruct))
-	for index, ts := range tempStruct {
-		result[index] = ts.book()
+	bl.Books = make([]*Book, len(jbl.Books))
+	for index, jbook := range jbl.Books {
+		book := jbook.book()
+		bl.Books[index] = &book
 	}
 
-	return result, nil
+	return nil
 }
