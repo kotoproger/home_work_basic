@@ -3,8 +3,9 @@ package book
 import (
 	"testing"
 
-	"github.com/golang/protobuf/proto"
 	"github.com/stretchr/testify/assert"
+	"google.golang.org/protobuf/proto"
+	"google.golang.org/protobuf/protoadapt"
 )
 
 var simpleCasesProtobuf = []struct {
@@ -55,7 +56,8 @@ var sliceCasesProtobuf = []struct {
 func TestBookToString(t *testing.T) {
 	for _, tc := range simpleCasesProtobuf {
 		t.Run(tc.name, func(t *testing.T) {
-			protoBytes, err := proto.Marshal(&tc.book)
+			bookv2 := protoadapt.MessageV2Of(&tc.book)
+			protoBytes, err := proto.Marshal(bookv2)
 			assert.Equal(t, tc.json, protoBytes)
 			assert.Nil(t, err)
 		})
@@ -66,7 +68,8 @@ func TestBookFromString(t *testing.T) {
 	for _, tc := range simpleCasesProtobuf {
 		t.Run(tc.name, func(t *testing.T) {
 			b := Book{}
-			err := proto.Unmarshal(tc.json, &b)
+			bv2 := protoadapt.MessageV2Of(&b)
+			err := proto.Unmarshal(tc.json, bv2)
 			assert.Equal(t, tc.book, b)
 			assert.Nil(t, err)
 		})
@@ -82,7 +85,8 @@ func TestBooksToString(t *testing.T) {
 		}
 
 		t.Run(tc.name, func(t *testing.T) {
-			protoBytes, err := proto.Marshal(&books)
+			booksv2 := protoadapt.MessageV2Of(&books)
+			protoBytes, err := proto.Marshal(booksv2)
 			assert.Equal(t, tc.bytes, protoBytes)
 			assert.Nil(t, err)
 		})
@@ -102,7 +106,8 @@ func TestBooksFromString(t *testing.T) {
 
 		t.Run(tc.name, func(t *testing.T) {
 			list := Booklist{Books: make([]*Book, 0)}
-			err := proto.Unmarshal(tc.bytes, &list)
+			listv2 := protoadapt.MessageV2Of(&list)
+			err := proto.Unmarshal(tc.bytes, listv2)
 			assert.Equal(t, books, list)
 			assert.Nil(t, err)
 		})
