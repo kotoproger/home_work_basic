@@ -10,9 +10,16 @@ func DataProcessor(rawData <-chan int, output chan<- float32, exit <-chan time.T
 
 	for {
 		select {
-		case <-exit:
+		case _, stillOpen := <-exit:
+			if !stillOpen {
+				return
+			}
 			return
-		case buffer[counter] = <-rawData:
+		case val, stillOpen := <-rawData:
+			if !stillOpen {
+				return
+			}
+			buffer[counter] = val
 			counter++
 			if counter == 10 {
 				output <- calcucateData(buffer)
