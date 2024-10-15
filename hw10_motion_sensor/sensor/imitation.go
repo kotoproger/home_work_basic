@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-func ReadSensor(rawData chan int, exit <-chan time.Time, freq *time.Ticker) {
+func ReadSensor(rawData chan<- int, exit <-chan time.Time, freq *time.Ticker) {
 	for {
 		select {
 		case <-exit:

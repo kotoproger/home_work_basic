@@ -4,7 +4,7 @@ import (
 	"time"
 )
 
-func DataProcessor(rawData chan int, output chan float32, exit <-chan time.Time) {
+func DataProcessor(rawData <-chan int, output chan<- float32, exit <-chan time.Time) {
 	counter := 0
 	buffer := [10]int{}
 
