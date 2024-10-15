@@ -11,12 +11,16 @@ func main() {
 	duration := time.Second * 10
 	rawData := make(chan int)
 	output := make(chan float32)
+	defer close(rawData)
+	defer close(output)
 
 	readExit := time.After(duration)
 	calcExit := time.After(duration + time.Second)
 	timer := time.After(duration + time.Second*2)
+	freqTicker := time.NewTicker(time.Millisecond * 100)
+	defer freqTicker.Stop()
 
-	go sensor.ReadSensor(rawData, readExit, time.NewTicker(time.Millisecond*100))
+	go sensor.ReadSensor(rawData, readExit, freqTicker)
 	go sensor.DataProcessor(rawData, output, calcExit)
 
 	for {

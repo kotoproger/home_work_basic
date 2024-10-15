@@ -23,8 +23,10 @@ func TestReadSensor(t *testing.T) {
 			testCase.name,
 			func(t *testing.T) {
 				ch := make(chan int, 100)
+				defer close(ch)
 				duration := time.After(time.Millisecond * time.Duration(testCase.durationMs))
 				freq := time.NewTicker(time.Millisecond * time.Duration(testCase.freqMS))
+				defer freq.Stop()
 				ReadSensor(ch, duration, freq)
 				assert.Equal(t, testCase.expectedLength, len(ch))
 			},

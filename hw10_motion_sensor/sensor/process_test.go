@@ -30,7 +30,9 @@ func TestDataProcessor(t *testing.T) {
 	for _, testCase := range testCases {
 		t.Run(testCase.name, func(t *testing.T) {
 			outputCh := make(chan float32, len(testCase.expectedData)+100)
+			defer close(outputCh)
 			inputCh := make(chan int, len(testCase.input))
+			defer close(inputCh)
 			exit := time.After(time.Millisecond)
 			for _, data := range testCase.input {
 				inputCh <- data
