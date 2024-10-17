@@ -6,20 +6,19 @@ import (
 	"time"
 )
 
-func ReadSensor(rawData chan<- int, exit <-chan time.Time, freq *time.Ticker) {
+func ReadSensor(rawData chan<- int, exit <-chan time.Time, freq time.Duration) {
 	for {
+		number, _ := rand.Int(rand.Reader, big.NewInt(100))
 		select {
 		case _, stillOpen := <-exit:
 			if !stillOpen {
 				return
 			}
 			return
-		case _, stillOpen := <-freq.C:
-			if !stillOpen {
-				return
-			}
-			number, _ := rand.Int(rand.Reader, big.NewInt(100))
-			rawData <- int(number.Int64())
+		case rawData <- int(number.Int64()):
+			time.Sleep(freq)
+		default:
+			time.Sleep(freq)
 		}
 	}
 }

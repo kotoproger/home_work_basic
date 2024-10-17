@@ -17,10 +17,8 @@ func main() {
 	readExit := time.After(duration)
 	calcExit := time.After(duration + time.Second)
 	timer := time.After(duration + time.Second*2)
-	freqTicker := time.NewTicker(time.Millisecond * 100)
-	defer freqTicker.Stop()
 
-	go sensor.ReadSensor(rawData, readExit, freqTicker)
+	go sensor.ReadSensor(rawData, readExit, time.Millisecond*100)
 	go sensor.DataProcessor(rawData, output, calcExit)
 
 	for {
