@@ -1,39 +1,21 @@
 package sensor
 
-import (
-	"time"
-)
+func DataProcessor(rawData <-chan int) <-chan float32 {
+	output := make(chan float32)
+	go func(output chan<- float32) {
+		counter := 0
+		buffer := 0
+		defer close(output)
 
-func DataProcessor(rawData <-chan int, output chan<- float32, exit <-chan time.Time) {
-	counter := 0
-	buffer := [10]int{}
-
-	for {
-		select {
-		case _, stillOpen := <-exit:
-			if !stillOpen {
-				return
-			}
-			return
-		case val, stillOpen := <-rawData:
-			if !stillOpen {
-				return
-			}
-			buffer[counter] = val
+		for val := range rawData {
+			buffer += val
 			counter++
 			if counter == 10 {
-				output <- calcucateData(buffer)
+				output <- (float32(buffer) / float32(counter))
 				counter = 0
 			}
 		}
-	}
-}
+	}(output)
 
-func calcucateData(data [10]int) float32 {
-	var sum int
-	for _, value := range data {
-		sum += value
-	}
-
-	return float32(sum) / 10
+	return output
 }
