@@ -3,7 +3,7 @@ package log
 func StatCalc(input <-chan Record) map[string]map[string]int {
 	stat := make(map[string]map[string]int)
 	for record := range input {
-		processField(&stat, "message", record.Message)
+		processField(&stat, "Message", record.Message)
 	}
 
 	return stat
