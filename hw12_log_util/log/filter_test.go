@@ -49,7 +49,7 @@ func TestFilter(t *testing.T) {
 			}
 			close(input)
 			output := Filter(input, testCase.assert)
-			outputSlice := make([]Record, 0)
+			outputSlice := []Record{}
 			for outRecord := range output {
 				outputSlice = append(outputSlice, outRecord)
 			}
