@@ -21,7 +21,6 @@ func main() {
 	}
 
 	file, err := os.Open(settings.InputFileName)
-
 	if err != nil {
 		panic(err)
 	}
@@ -42,12 +41,11 @@ func main() {
 	if settings.OutputFileName == "" {
 		fmt.Println(string(jsonData))
 	} else {
-		output, err := os.OpenFile(settings.OutputFileName, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
-		if err != nil {
-			panic(err)
+		output, outerr := os.OpenFile(settings.OutputFileName, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0o644)
+		if outerr != nil {
+			panic(outerr)
 		}
 		defer output.Close()
 		output.Write(jsonData)
 	}
-
 }
