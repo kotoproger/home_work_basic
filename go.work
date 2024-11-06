@@ -15,4 +15,5 @@ use (
 	./hw13_http
 	./hw15_go_sql
 	./hw16_docker
+	./config
 )
