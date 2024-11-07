@@ -9,9 +9,15 @@ import (
 
 func main() {
 	c := configapp.ConfigApp{}
-	c.AddParam(configapp.ConfigParam{Name: "host", Description: "Server host with port", ShortName: "h", Default: "127.0.0.1:8880"})
-	c.AddParam(configapp.ConfigParam{Name: "uri", Description: "Uri", ShortName: "u", Default: "/"})
-	c.AddParam(configapp.ConfigParam{Name: "method", Description: "Method", ShortName: "m", Default: "GET"})
+	c.AddParam(configapp.ConfigParam{
+		Name: "host", Description: "Server host with port", ShortName: "h", Default: "127.0.0.1:8880",
+	})
+	c.AddParam(configapp.ConfigParam{
+		Name: "uri", Description: "Uri", ShortName: "u", Default: "/",
+	})
+	c.AddParam(configapp.ConfigParam{
+		Name: "method", Description: "Method", ShortName: "m", Default: "GET",
+	})
 
 	configapp.GetConfig(c)
 
