@@ -2,7 +2,9 @@ package main
 
 import (
 	"fmt"
-	"net"
+	"io"
+	"net/http"
+	"net/url"
 
 	"github.com/kotoproger/home_work_basic/configapp"
 )
@@ -20,26 +22,23 @@ func main() {
 	})
 
 	configapp.GetConfig(c)
-
-	conn, err := net.Dial("tcp", c.GetString("host"))
+	client := http.Client{}
+	uri, err := url.Parse(fmt.Sprintf("http://%s%s", c.GetString("host"), c.GetString("uri")))
 	if err != nil {
 		panic(err)
 	}
-	defer conn.Close()
-
-	message := fmt.Sprintf(
-		"%s %s HTTP/1.1\r\nHost: %s\r\n\r\n",
-		c.GetString("method"),
-		c.GetString("uri"),
-		c.GetString("host"),
-	)
-	conn.Write([]byte(message))
-
-	// Получаем ответ от сервера
-	buf := make([]byte, 4096)
-	n, err := conn.Read(buf)
-	if err != nil {
-		panic(err)
+	request := http.Request{Method: c.GetString("method"), URL: uri}
+	response, requestErr := client.Do(&request)
+	if requestErr != nil {
+		panic(requestErr)
 	}
-	fmt.Println(string(buf[:n]))
+	defer response.Body.Close()
+
+	body, err := io.ReadAll(response.Body)
+	if err != nil {
+		fmt.Println("Ошибка чтения", err)
+		return
+	}
+
+	fmt.Println(string(body))
 }

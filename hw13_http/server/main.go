@@ -9,7 +9,11 @@ import (
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "HTTP %s %s%s from:%s", r.Method, r.Host, r.RequestURI, r.RemoteAddr)
+	answer := fmt.Sprintf(
+		"HTTP %s %s%s from:%s with body:%s", r.Method, r.Host, r.RequestURI, r.RemoteAddr, r.Body,
+	)
+	fmt.Fprint(w, answer)
+	fmt.Println(answer)
 }
 
 func main() {
