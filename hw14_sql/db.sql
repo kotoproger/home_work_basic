@@ -1,3 +1,4 @@
+/* структура бд */
 create database hw14;
 
 CREATE TABLE public.users (
@@ -39,7 +40,8 @@ comment on column order_products.price is 'в копейках';
 ALTER TABLE public.order_products ADD CONSTRAINT order_products_order_fk FOREIGN KEY (order_id) REFERENCES public.orders(id);
 ALTER TABLE public.order_products ADD CONSTRAINT order_products_product_fk FOREIGN KEY (product_id) REFERENCES public.products(id);
 
-CREATE OR REPLACE FUNCTION  create_order(inemail varchar, inproducts bigint[]) returns bigint as $$
+/* функция для создания заказа */
+CREATE OR REPLACE FUNCTION create_order(inemail varchar, inproducts bigint[]) returns bigint as $$
 DECLARE 
  new_order_id bigint;
  new_product_id bigint;
@@ -58,7 +60,8 @@ begin
 end;
 $$ LANGUAGE plpgsql;
 
-CREATE OR REPLACE FUNCTION  remove_order(remove_order_id int) returns bool as $$
+/* функция для удаления заказа */
+CREATE OR REPLACE FUNCTION remove_order(remove_order_id int) returns bool as $$
 begin
 	delete from order_products where order_id = remove_order_id;
 	delete from orders where id = remove_order_id;
@@ -66,7 +69,7 @@ begin
 end;
 $$ LANGUAGE plpgsql;
 
-
+/* работа с пользователями */
 insert into users values
 (DEFAULT, 'иван', 'email1@mail.ru', 'o38947jy5djy43t', '3yt'),
 (DEFAULT, 'маша', 'email2@mail.ru', 'mo8e4u5o9d8jyow', '3yt'),
@@ -76,11 +79,36 @@ insert into users values
 update users set name='кирилл' where email='email3@mail.ru';
 delete from users where email='email3@mail.ru';
 
+/* работа с родуктами */
 insert into products values
 (DEFAULT, 'спички', 143),
 (DEFAULT, 'гречка', 54634),
 (DEFAULT, 'соль', 56341),
 (DEFAULT, 'туалетная бумага 3-х слойная', 6345123),
 (DEFAULT, 'вода питьевая', 572343523);
+
 update products set price = 344 where id = 1;
 delete from products where id = 5;
+
+/* выборка пользователей */
+
+select * from users;
+
+/* выборка токаров */
+
+select * from products;
+
+/* выборка заказов по пользователю */
+
+select * from orders where user_id = <user_id>
+
+/* статистика по пользователю */
+
+select 
+	o.user_id, sum(op.price), avg(op.price) 
+from 
+	orders as o 
+	inner join order_products as op on (op.order_id = o.id)
+where
+	o.user_id = <user_id>
+group by o.user_id;
