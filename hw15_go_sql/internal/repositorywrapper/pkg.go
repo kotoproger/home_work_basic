@@ -18,7 +18,10 @@ type Wrapper struct {
 	Repo *repository.Queries
 }
 
-func (w *Wrapper) RunTransactional(ctx context.Context, execute func(repo repository.Querier) ([]any, error)) ([]any, error) {
+func (w *Wrapper) RunTransactional(
+	ctx context.Context,
+	execute func(repo repository.Querier) ([]any, error),
+) ([]any, error) {
 	repo, commit, rollback, release, err := w.getRepository(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("get repository: %w", err)
@@ -29,11 +32,11 @@ func (w *Wrapper) RunTransactional(ctx context.Context, execute func(repo reposi
 	if runError != nil {
 		rollback()
 		return result, fmt.Errorf("execute error: %w", runError)
-	} else {
-		commitError := commit()
-		if commitError != nil {
-			return result, fmt.Errorf("commit error: %w", commitError)
-		}
+	}
+
+	commitError := commit()
+	if commitError != nil {
+		return result, fmt.Errorf("commit error: %w", commitError)
 	}
 
 	return result, nil
