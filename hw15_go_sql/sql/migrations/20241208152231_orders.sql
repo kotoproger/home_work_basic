@@ -1,8 +1,8 @@
 -- +goose Up
 -- +goose StatementBegin
 CREATE TABLE general.orders (
-	id bigserial NOT NULL,
-	user_id bigint NOT NULL,
+	id uuid default general.new_uuid(),
+	user_id uuid NOT NULL,
 	order_date timestamp NOT NULL,
 	total_amount integer NOT null,
 	CONSTRAINT orders_pk PRIMARY KEY (id)

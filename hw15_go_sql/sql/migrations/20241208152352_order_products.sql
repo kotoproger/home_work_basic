@@ -1,9 +1,9 @@
 -- +goose Up
 -- +goose StatementBegin
 create table general.order_products(
-	id bigserial not null,
-	order_id bigint NOT NULL,
-	product_id bigint NOT NULL,
+	id uuid  default general.new_uuid(),
+	order_id uuid NOT NULL,
+	product_id uuid NOT NULL,
 	price integer not null,
 	CONSTRAINT order_products_pk PRIMARY KEY (id)
 );

@@ -1,7 +1,7 @@
 -- +goose Up
 -- +goose StatementBegin
 CREATE TABLE general.users (
-	id bigserial NOT NULL,
+	id uuid default general.new_uuid(),
 	"name" varchar NULL,
 	email varchar NOT NULL,
 	password_hash varchar NOT NULL,
