@@ -6,7 +6,7 @@ services:
       target: server
       dockerfile: ./hw16_docker/Dockerfile
     ports:
-      - "${APP_PORT}:${APP_PORT}"
+      - "80:${APP_PORT}"
     tty: true
     env_file: .env
 

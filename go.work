@@ -1,6 +1,6 @@
 go 1.20
 
 use (
-	./hw10_motion_sensor
+	./hw13_http
 	./config
 )
