@@ -1,0 +1,20 @@
+services:
+  server:
+    container_name: ${APP_SERVER_IMAGE_NAME}
+    build:
+      context: ./../
+      target: server
+      dockerfile: ./hw16_docker/Dockerfile
+    ports:
+      - "${APP_PORT}:${APP_PORT}"
+    tty: true
+    env_file: .env
+
+  client:
+    container_name: client
+    build:
+      context: ./../
+      target: client
+      dockerfile: ./hw16_docker/Dockerfile
+    tty: true
+    env_file: .env
