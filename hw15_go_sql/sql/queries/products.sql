@@ -6,3 +6,6 @@ select * from general.products where id = $1;
 insert into general.products ("name", price)
 values($1, $2)
 returning id;
+
+-- name: GetProducts :many
+select * from general.products;

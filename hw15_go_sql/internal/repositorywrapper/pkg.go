@@ -10,7 +10,7 @@ import (
 )
 
 type TransactionalRepository interface {
-	RunTransactional(ctx context.Context, execute func(repo repository.Querier) []any) []any
+	RunTransactional(ctx context.Context, execute func(repo repository.Querier) (any, error)) (any, error)
 }
 
 type Wrapper struct {

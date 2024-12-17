@@ -39,3 +39,27 @@ func (q *Queries) GetProductById(ctx context.Context, id pgtype.UUID) (*GeneralP
 	err := row.Scan(&i.ID, &i.Name, &i.Price)
 	return &i, err
 }
+
+const GetProducts = `-- name: GetProducts :many
+select id, name, price from general.products
+`
+
+func (q *Queries) GetProducts(ctx context.Context) ([]*GeneralProduct, error) {
+	rows, err := q.db.Query(ctx, GetProducts)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []*GeneralProduct{}
+	for rows.Next() {
+		var i GeneralProduct
+		if err := rows.Scan(&i.ID, &i.Name, &i.Price); err != nil {
+			return nil, err
+		}
+		items = append(items, &i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}

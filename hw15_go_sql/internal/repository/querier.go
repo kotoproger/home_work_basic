@@ -20,6 +20,7 @@ type Querier interface {
 	GetOrderProducts(ctx context.Context, orderID pgtype.UUID) ([]*GeneralOrderProduct, error)
 	GetOrdersByUser(ctx context.Context, userID pgtype.UUID) ([]*GeneralOrder, error)
 	GetProductById(ctx context.Context, id pgtype.UUID) (*GeneralProduct, error)
+	GetProducts(ctx context.Context) ([]*GeneralProduct, error)
 	RemoveProductFromOrder(ctx context.Context, id pgtype.UUID) error
 	UpdateOrderAmount(ctx context.Context, arg UpdateOrderAmountParams) (int32, error)
 }
