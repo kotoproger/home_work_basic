@@ -6,6 +6,9 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/jackc/pgx/v5/stdlib"
 	"github.com/kotoproger/home_work_basic/configapp"
+	"github.com/kotoproger/home_work_basic/hw15_go_sql/app"
+	"github.com/kotoproger/home_work_basic/hw15_go_sql/internal/repository"
+	"github.com/kotoproger/home_work_basic/hw15_go_sql/internal/repositorywrapper"
 	"github.com/pressly/goose/v3"
 )
 
@@ -41,4 +44,12 @@ func main() {
 	}
 	println("Done")
 
+	app := app.App{
+		Repository: &repositorywrapper.Wrapper{
+			Pool: pool,
+			Repo: &repository.Queries{},
+		},
+	}
+
+	app.start()
 }
