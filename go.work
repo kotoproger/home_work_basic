@@ -1,6 +1,7 @@
-go 1.20
+go 1.22
 
 use (
+	./config
 	./hw02_fix_app
 	./hw03_chessboard
 	./hw04_struct_comparator
@@ -15,5 +16,4 @@ use (
 	./hw13_http
 	./hw15_go_sql
 	./hw16_docker
-	./config
 )
