@@ -20,8 +20,8 @@ type Wrapper struct {
 
 func (w *Wrapper) RunTransactional(
 	ctx context.Context,
-	execute func(repo repository.Querier) ([]any, error),
-) ([]any, error) {
+	execute func(repo repository.Querier) (any, error),
+) (any, error) {
 	repo, commit, rollback, release, err := w.getRepository(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("get repository: %w", err)

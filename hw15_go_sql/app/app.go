@@ -7,3 +7,7 @@ import (
 type App struct {
 	Repository repositorywrapper.TransactionalRepository
 }
+
+func (a App) start() {
+
+}

@@ -1,13 +1,17 @@
 services:
-    hw14db:
+    pg-storage:
         image: postgres:16-alpine
-        container_name: hw14db
+        container_name: pg-storage
         environment:
             POSTGRES_DB: ${APP_DB_DATABASE}
             POSTGRES_USER: ${APP_DB_USER}
             POSTGRES_PASSWORD: ${APP_DB_PASSWORD}
             PGDATA: "/var/lib/postgresql/data/pgdata"
-        volumes:
-            - ./localdata/pg-storage:/var/lib/postgresql/data
         ports:
             - ${APP_DB_PORT}:5432
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready", "-d", "${APP_DB_DATABASE}"]
+            interval: 5s
+            timeout: 10s
+            retries: 10
+            start_period: 5s 

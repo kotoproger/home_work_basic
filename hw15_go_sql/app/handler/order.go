@@ -75,7 +75,3 @@ func (o *Order) GetByID(ctx context.Context, ID string) (*OrderItem, error) { //
 
 	return &order, nil
 }
-
-// func (o *Order) GetOrdersByUser(ID string) ([]*OrderItem, error) {
-
-// }
