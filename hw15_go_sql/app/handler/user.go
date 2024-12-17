@@ -14,12 +14,12 @@ type User struct {
 }
 
 type UserDto struct {
-	ID           string
-	Name         string
-	Email        string
-	password     string
-	passwordHash string
-	passwordSalt string
+	ID           string `json:"id"`
+	Name         string `json:"name"`
+	Email        string `json:"email"`
+	password     string `json:"-"`
+	passwordHash string `json:"-"`
+	passwordSalt string `json:"-"`
 }
 
 func NewUserDtoWithPassword(name string, email string, password string) (*UserDto, error) {

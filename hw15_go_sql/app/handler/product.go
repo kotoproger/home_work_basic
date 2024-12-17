@@ -13,9 +13,9 @@ type Product struct {
 }
 
 type ProductItem struct {
-	ID    string
-	Name  string
-	Price int64
+	ID    string `json:"id"`
+	Name  string `json:"name"`
+	Price int64  `json:"price"`
 }
 
 func (p *Product) GetList(ctx context.Context) ([]ProductItem, error) {
