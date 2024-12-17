@@ -2,8 +2,6 @@ module github.com/kotoproger/home_work_basic/hw15_go_sql
 
 go 1.22
 
-toolchain go1.22
-
 require (
 	github.com/jackc/pgx/v5 v5.7.1
 	github.com/kotoproger/exchange v0.0.0-20241208004518-98c2304938c8
