@@ -1,0 +1,21 @@
+POST http://localhost:8888/api/v1/user/register HTTP/1.1
+content-type: application/json
+
+{
+    "name": "john",
+    "email":"2lohn@mail.ru",
+    "passwd": "123123123"
+}
+
+###
+
+GET http://localhost:8888/api/v1/product/list HTTP/1.1
+
+###
+
+GET http://localhost:8888/api/v1/order/0191db0a-4380-20e2-c82e-b2d8ac16da3d HTTP/1.1
+
+###
+
+GET http://localhost:8888/api/v1/order/0191db0a-4380-20e2-c82e-b2d8ac16da3d HTTP/1.1
+Auth: 0191db0a-4380-20e2-c82e-b2d8ac16da3d
