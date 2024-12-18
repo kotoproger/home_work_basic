@@ -15,14 +15,20 @@ type Querier interface {
 	CreateOrder(ctx context.Context, userID pgtype.UUID) (pgtype.UUID, error)
 	CreateProduct(ctx context.Context, arg CreateProductParams) (pgtype.UUID, error)
 	CreateUser(ctx context.Context, arg CreateUserParams) (pgtype.UUID, error)
+	DeleteOrderById(ctx context.Context, id pgtype.UUID) error
+	DeleteProduct(ctx context.Context, id pgtype.UUID) error
+	DeleteUser(ctx context.Context, id pgtype.UUID) error
 	FindUser(ctx context.Context, email string) (*GeneralUser, error)
 	GetOrderById(ctx context.Context, arg GetOrderByIdParams) (*GeneralOrder, error)
 	GetOrderProducts(ctx context.Context, orderID pgtype.UUID) ([]*GeneralOrderProduct, error)
 	GetOrdersByUser(ctx context.Context, userID pgtype.UUID) ([]*GeneralOrder, error)
 	GetProductById(ctx context.Context, id pgtype.UUID) (*GeneralProduct, error)
 	GetProducts(ctx context.Context) ([]*GeneralProduct, error)
+	RemoveAllProductsFromOrder(ctx context.Context, orderID pgtype.UUID) error
 	RemoveProductFromOrder(ctx context.Context, id pgtype.UUID) error
 	UpdateOrderAmount(ctx context.Context, arg UpdateOrderAmountParams) (int32, error)
+	UpdateProductPrice(ctx context.Context, arg UpdateProductPriceParams) error
+	UpdateUserName(ctx context.Context, arg UpdateUserNameParams) error
 }
 
 var _ Querier = (*Queries)(nil)

@@ -59,6 +59,15 @@ func (q *Queries) GetOrderProducts(ctx context.Context, orderID pgtype.UUID) ([]
 	return items, nil
 }
 
+const RemoveAllProductsFromOrder = `-- name: RemoveAllProductsFromOrder :exec
+delete from general.order_products where order_id = $1
+`
+
+func (q *Queries) RemoveAllProductsFromOrder(ctx context.Context, orderID pgtype.UUID) error {
+	_, err := q.db.Exec(ctx, RemoveAllProductsFromOrder, orderID)
+	return err
+}
+
 const RemoveProductFromOrder = `-- name: RemoveProductFromOrder :exec
 delete from general.order_products where id = $1
 `

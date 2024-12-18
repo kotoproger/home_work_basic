@@ -31,5 +31,20 @@ func (o *Order) RegisterRoutes(router *gin.Engine) {
 			}
 			ctx.JSON(http.StatusOK, order)
 		})
+
+		apiOrder.DELETE("/:orderID", func(ctx *gin.Context) {
+			stringOrderIDValue := ctx.Param("orderID")
+			if stringOrderIDValue == "" {
+				ctx.JSON(http.StatusBadRequest, struct{}{})
+				return
+			}
+
+			err := o.DeleteOrder(o.app.Ctx, stringOrderIDValue)
+			if err != nil {
+				ctx.JSON(http.StatusInternalServerError, err)
+				return
+			}
+			ctx.JSON(http.StatusOK, struct{}{})
+		})
 	}
 }

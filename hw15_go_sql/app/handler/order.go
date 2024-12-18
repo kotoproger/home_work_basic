@@ -32,17 +32,17 @@ type OrderProduct struct {
 }
 
 func (o *Order) GetByID(ctx context.Context, orderID string, userID string) (*OrderItem, error) {
+	orderUUID := pgtype.UUID{}
+	ouErr := orderUUID.Scan(orderID)
+	if ouErr != nil {
+		return nil, fmt.Errorf("convert order id to uuid: %w", ouErr)
+	}
+	userUUID := pgtype.UUID{}
+	uuErr := userUUID.Scan(userID)
+	if uuErr != nil {
+		return nil, fmt.Errorf("convert user id to uuid: %w", uuErr)
+	}
 	res, err := o.app.Repository.RunTransactional(ctx, func(repo repository.Querier) (any, error) {
-		orderUUID := pgtype.UUID{}
-		ouErr := orderUUID.Scan(orderID)
-		if ouErr != nil {
-			return nil, fmt.Errorf("convert order id to uuid: %w", ouErr)
-		}
-		userUUID := pgtype.UUID{}
-		uuErr := userUUID.Scan(userID)
-		if uuErr != nil {
-			return nil, fmt.Errorf("convert user id to uuid: %w", uuErr)
-		}
 		order, qError := repo.GetOrderById(ctx, repository.GetOrderByIdParams{
 			ID:     orderUUID,
 			UserID: userUUID,
@@ -91,4 +91,26 @@ func (o *Order) GetByID(ctx context.Context, orderID string, userID string) (*Or
 	}
 
 	return &order, nil
+}
+
+func (o *Order) DeleteOrder(ctx context.Context, orderID string) error {
+	orderUUID := pgtype.UUID{}
+	ouErr := orderUUID.Scan(orderID)
+	if ouErr != nil {
+		return fmt.Errorf("convert order id to uuid: %w", ouErr)
+	}
+
+	_, err := o.app.Repository.RunTransactional(ctx, func(repo repository.Querier) (any, error) {
+		err := repo.RemoveAllProductsFromOrder(ctx, orderUUID)
+		if err != nil {
+			return nil, err
+		}
+		err = repo.DeleteOrderById(ctx, orderUUID)
+		if err != nil {
+			return nil, err
+		}
+		return nil, nil
+	})
+
+	return err
 }

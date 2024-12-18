@@ -29,6 +29,15 @@ func (q *Queries) CreateProduct(ctx context.Context, arg CreateProductParams) (p
 	return id, err
 }
 
+const DeleteProduct = `-- name: DeleteProduct :exec
+delete from general.products where id = $1
+`
+
+func (q *Queries) DeleteProduct(ctx context.Context, id pgtype.UUID) error {
+	_, err := q.db.Exec(ctx, DeleteProduct, id)
+	return err
+}
+
 const GetProductById = `-- name: GetProductById :one
 select id, name, price from general.products where id = $1
 `
@@ -62,4 +71,18 @@ func (q *Queries) GetProducts(ctx context.Context) ([]*GeneralProduct, error) {
 		return nil, err
 	}
 	return items, nil
+}
+
+const UpdateProductPrice = `-- name: UpdateProductPrice :exec
+update general.products set price = $2 where id = $1
+`
+
+type UpdateProductPriceParams struct {
+	ID    pgtype.UUID `db:"id" json:"id"`
+	Price int32       `db:"price" json:"price"`
+}
+
+func (q *Queries) UpdateProductPrice(ctx context.Context, arg UpdateProductPriceParams) error {
+	_, err := q.db.Exec(ctx, UpdateProductPrice, arg.ID, arg.Price)
+	return err
 }

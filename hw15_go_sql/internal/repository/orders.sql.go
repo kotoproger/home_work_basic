@@ -24,6 +24,15 @@ func (q *Queries) CreateOrder(ctx context.Context, userID pgtype.UUID) (pgtype.U
 	return id, err
 }
 
+const DeleteOrderById = `-- name: DeleteOrderById :exec
+delete from general.orders where id = $1
+`
+
+func (q *Queries) DeleteOrderById(ctx context.Context, id pgtype.UUID) error {
+	_, err := q.db.Exec(ctx, DeleteOrderById, id)
+	return err
+}
+
 const GetOrderById = `-- name: GetOrderById :one
 select id, user_id, order_date, total_amount from general.orders where id = $1 and user_id = $2
 `

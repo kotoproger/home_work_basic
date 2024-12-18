@@ -36,6 +36,15 @@ func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (pgtype.
 	return id, err
 }
 
+const DeleteUser = `-- name: DeleteUser :exec
+delete from general.users where id = $1
+`
+
+func (q *Queries) DeleteUser(ctx context.Context, id pgtype.UUID) error {
+	_, err := q.db.Exec(ctx, DeleteUser, id)
+	return err
+}
+
 const FindUser = `-- name: FindUser :one
 select id, name, email, password_hash, password_salt from general.users where email =$1
 `
@@ -51,4 +60,18 @@ func (q *Queries) FindUser(ctx context.Context, email string) (*GeneralUser, err
 		&i.PasswordSalt,
 	)
 	return &i, err
+}
+
+const UpdateUserName = `-- name: UpdateUserName :exec
+update general.users set name = $2 where id = $1
+`
+
+type UpdateUserNameParams struct {
+	ID   pgtype.UUID `db:"id" json:"id"`
+	Name *string     `db:"name" json:"name"`
+}
+
+func (q *Queries) UpdateUserName(ctx context.Context, arg UpdateUserNameParams) error {
+	_, err := q.db.Exec(ctx, UpdateUserName, arg.ID, arg.Name)
+	return err
 }

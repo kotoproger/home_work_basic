@@ -13,3 +13,6 @@ returning total_amount;
 
 -- name: GetOrderById :one
 select * from general.orders where id = $1 and user_id = $2;
+
+-- name: DeleteOrderById :exec
+delete from general.orders where id = $1;

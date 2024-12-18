@@ -9,3 +9,9 @@ returning id;
 
 -- name: GetProducts :many
 select * from general.products;
+
+-- name: UpdateProductPrice :exec
+update general.products set price = $2 where id = $1;
+
+-- name: DeleteProduct :exec
+delete from general.products where id = $1;

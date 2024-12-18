@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/gin-gonic/gin"
+	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/kotoproger/home_work_basic/hw15_go_sql/app"
 	"github.com/kotoproger/home_work_basic/hw15_go_sql/app/security"
 	"github.com/kotoproger/home_work_basic/hw15_go_sql/internal/repository"
@@ -79,4 +80,35 @@ func (u *User) Register(ctx context.Context, user UserDto) (*UserDto, error) {
 	user.ID = stringID
 
 	return &user, nil
+}
+
+func (u *User) UpdateName(userID string, name string) error {
+	_, err := u.app.Repository.RunTransactional(u.app.Ctx, func(repo repository.Querier) (any, error) {
+		userUUID := pgtype.UUID{}
+		ouErr := userUUID.Scan(userID)
+		if ouErr != nil {
+			return nil, fmt.Errorf("convert order id to uuid: %w", ouErr)
+		}
+
+		return nil, repo.UpdateUserName(u.app.Ctx, repository.UpdateUserNameParams{
+			ID:   userUUID,
+			Name: &name,
+		})
+	})
+
+	return err
+}
+
+func (u *User) DeleteUser(userID string) error {
+	_, err := u.app.Repository.RunTransactional(u.app.Ctx, func(repo repository.Querier) (any, error) {
+		userUUID := pgtype.UUID{}
+		ouErr := userUUID.Scan(userID)
+		if ouErr != nil {
+			return nil, fmt.Errorf("convert order id to uuid: %w", ouErr)
+		}
+
+		return nil, repo.DeleteUser(u.app.Ctx, userUUID)
+	})
+
+	return err
 }
