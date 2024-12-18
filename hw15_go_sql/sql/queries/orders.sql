@@ -12,4 +12,4 @@ where id = $1
 returning total_amount;
 
 -- name: GetOrderById :one
-select * from general.orders where id = $1;
+select * from general.orders where id = $1 and user_id = $2;

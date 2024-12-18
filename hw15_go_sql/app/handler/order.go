@@ -8,10 +8,15 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/kotoproger/home_work_basic/hw15_go_sql/app"
 	"github.com/kotoproger/home_work_basic/hw15_go_sql/internal/repository"
+	"github.com/kotoproger/home_work_basic/hw15_go_sql/internal/repositorywrapper"
 )
 
 type Order struct {
 	app app.App
+}
+
+func NewOrder(a app.App) *Order {
+	return &Order{app: a}
 }
 
 type OrderItem struct {
@@ -26,14 +31,22 @@ type OrderProduct struct {
 	ProductID string `json:"product_id"` //nolint:tagliatelle
 }
 
-func (o *Order) GetByID(ctx context.Context, ID string) (*OrderItem, error) { //nolint:gocritic
+func (o *Order) GetByID(ctx context.Context, orderID string, userID string) (*OrderItem, error) {
 	res, err := o.app.Repository.RunTransactional(ctx, func(repo repository.Querier) (any, error) {
-		uuid := pgtype.UUID{}
-		err := uuid.UnmarshalJSON([]byte(ID))
-		if err != nil {
-			return nil, fmt.Errorf("convert id to uuid: %w", err)
+		orderUUID := pgtype.UUID{}
+		ouErr := orderUUID.Scan(orderID)
+		if ouErr != nil {
+			return nil, fmt.Errorf("convert order id to uuid: %w", ouErr)
 		}
-		order, qError := repo.GetOrderById(ctx, uuid)
+		userUUID := pgtype.UUID{}
+		uuErr := userUUID.Scan(userID)
+		if uuErr != nil {
+			return nil, fmt.Errorf("convert user id to uuid: %w", uuErr)
+		}
+		order, qError := repo.GetOrderById(ctx, repository.GetOrderByIdParams{
+			ID:     orderUUID,
+			UserID: userUUID,
+		})
 		if qError != nil {
 			return nil, fmt.Errorf("get order by id: %w", qError)
 		}
@@ -48,17 +61,21 @@ func (o *Order) GetByID(ctx context.Context, ID string) (*OrderItem, error) { //
 		}
 
 		orderItem := OrderItem{
-			ID:        string(order.ID.Bytes[0:]),
-			UserID:    string(order.UserID.Bytes[0:]),
+			ID:        orderID,
+			UserID:    userID,
 			OrderDate: order.OrderDate.Time,
 		}
 
 		if orderProducts != nil {
 			orderItem.Items = make([]OrderProduct, len(orderProducts))
 			for index, orderProduct := range orderProducts {
+				prID, pUerr := repositorywrapper.UUIDToString(orderProduct.ProductID)
+				if pUerr != nil {
+					return nil, fmt.Errorf("convert product id to string: %w", pUerr)
+				}
 				orderItem.Items[index] = OrderProduct{
 					Price:     int64(orderProduct.Price),
-					ProductID: string(orderProduct.ProductID.Bytes[0:]),
+					ProductID: prID,
 				}
 			}
 		}

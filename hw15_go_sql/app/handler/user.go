@@ -4,13 +4,19 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/gin-gonic/gin"
 	"github.com/kotoproger/home_work_basic/hw15_go_sql/app"
 	"github.com/kotoproger/home_work_basic/hw15_go_sql/app/security"
 	"github.com/kotoproger/home_work_basic/hw15_go_sql/internal/repository"
+	"github.com/kotoproger/home_work_basic/hw15_go_sql/internal/repositorywrapper"
 )
 
 type User struct {
 	app app.App
+}
+
+func NewUser(a app.App) *User {
+	return &User{app: a}
 }
 
 type UserDto struct {
@@ -37,6 +43,14 @@ func NewUserDtoWithPassword(name string, email string, password string) (*UserDt
 	}, nil
 }
 
+func (u *User) Auth(ctx *gin.Context) {
+	userID := ctx.Request.Header.Get("Auth")
+	if userID != "" {
+		ctx.Set("userID", userID)
+	}
+	ctx.Next()
+}
+
 func (u *User) Register(ctx context.Context, user UserDto) (*UserDto, error) {
 	userIDAny, err := u.app.Repository.RunTransactional(ctx, func(repo repository.Querier) (any, error) {
 		uuid, err := repo.CreateUser(
@@ -51,8 +65,7 @@ func (u *User) Register(ctx context.Context, user UserDto) (*UserDto, error) {
 		if err != nil {
 			return nil, fmt.Errorf("repository create user: %w", err)
 		}
-
-		return string(uuid.Bytes[0:]), nil
+		return repositorywrapper.UUIDToString(uuid)
 	})
 	if err != nil {
 		return nil, err

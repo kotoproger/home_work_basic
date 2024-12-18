@@ -16,7 +16,7 @@ type Querier interface {
 	CreateProduct(ctx context.Context, arg CreateProductParams) (pgtype.UUID, error)
 	CreateUser(ctx context.Context, arg CreateUserParams) (pgtype.UUID, error)
 	FindUser(ctx context.Context, email string) (*GeneralUser, error)
-	GetOrderById(ctx context.Context, id pgtype.UUID) (*GeneralOrder, error)
+	GetOrderById(ctx context.Context, arg GetOrderByIdParams) (*GeneralOrder, error)
 	GetOrderProducts(ctx context.Context, orderID pgtype.UUID) ([]*GeneralOrderProduct, error)
 	GetOrdersByUser(ctx context.Context, userID pgtype.UUID) ([]*GeneralOrder, error)
 	GetProductById(ctx context.Context, id pgtype.UUID) (*GeneralProduct, error)

@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/kotoproger/home_work_basic/hw15_go_sql/internal/repository"
 )
@@ -80,4 +81,16 @@ func (w *Wrapper) getRepository(ctx context.Context) (
 	}(transaction, ctx)
 
 	return w.Repo.WithTx(transaction), commit, rollback, release, nil
+}
+
+func UUIDToString(uuid pgtype.UUID) (string, error) {
+	value, verr := uuid.Value()
+	if verr != nil {
+		return "", fmt.Errorf("get value from uuid: %w", verr)
+	}
+	suuid, ok := value.(string)
+	if !ok {
+		return "", fmt.Errorf("convert value to string")
+	}
+	return suuid, nil
 }

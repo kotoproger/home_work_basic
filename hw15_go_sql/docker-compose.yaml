@@ -1,7 +1,7 @@
 services:
     pg-storage:
         image: postgres:16-alpine
-        container_name: pg-storage
+        container_name: hw15
         environment:
             POSTGRES_DB: ${APP_DB_DATABASE}
             POSTGRES_USER: ${APP_DB_USER}
