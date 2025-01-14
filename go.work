@@ -15,5 +15,4 @@ use (
 	./hw12_log_util
 	./hw13_http
 	./hw15_go_sql
-	./hw16_docker
 )
